@@ -1,0 +1,24 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="MySql" defaultModelType="flat">
+
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://127.0.0.1:3306/unittest"
+                userId="root"
+                password="rootroot" />
+
+        <javaModelGenerator targetPackage="cn.hunter.spring.domain" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="cn.hunter.spring.repository" targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <table tableName="demo_product"/>
+
+    </context>
+</generatorConfiguration>

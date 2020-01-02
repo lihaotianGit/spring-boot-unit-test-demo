@@ -1,0 +1,11 @@
+{
+  "code":"0000",
+  "message":"success",
+  "success":true,
+  "userInfo":{
+    "age":18,
+    "city":"Beijing",
+    "userId":1,
+    "username":"demo"
+  }
+}
