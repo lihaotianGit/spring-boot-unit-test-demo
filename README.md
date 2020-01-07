@@ -42,7 +42,42 @@ this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
 
 **打印示例：**
 ```
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /products/8
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=utf-8"]
+             Body = null
+    Session Attrs = {}
 
+Handler:
+             Type = cn.hunter.spring.resource.ProductResource
+           Method = cn.hunter.spring.resource.ProductResource#findOne(Long)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"data":{"id":8,"productLineId":1,"productName":"test-product-0","quantityInstock":25,"buyPrice":23.99,"expirationDate":"2020-01-01T00:00:00.000+0800"},"success":true}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
 ```
 
 #### 2.回滚数据库测试数据
@@ -257,25 +292,56 @@ ResultActions resultActions = this.mockMvc.perform(post("/products")
 **Json：**
 
 ```
-
+{
+    "data":{
+        "id":8,
+        "productLineId":1,
+        "productName":"test-product-0",
+        "quantityInstock":25,
+        "buyPrice":23.99,
+        "expirationDate":"2020-01-01T00:00:00.000+0800"
+    },
+    "success":true
+}
 ```
 
 **代码：**
 ```
 this.mockMvc.perform(get("/products/" + productId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf-8"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.data.id", is(productId), Long.class)) // Expected 33L but is 33, use Long.class to fix it.
-                .andExpect(jsonPath("$.data.productLineId", is(1)))
-                .andExpect(jsonPath("$.data.productName", is("test-product-0")))
-                .andExpect(jsonPath("$.data.quantityInstock", is(25)))
-                .andExpect(jsonPath("$.data.buyPrice", is(23.99)))
-                .andExpect(jsonPath("$.data.expirationDate", is("2020-01-01T00:00:00.000+0800")));
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success", is(true)))
+        .andExpect(jsonPath("$.data.id", is(productId), Long.class)) // Expected 33L but is 33, use Long.class to fix it.
+        .andExpect(jsonPath("$.data.productLineId", is(1)))
+        .andExpect(jsonPath("$.data.productName", is("test-product-0")))
+        .andExpect(jsonPath("$.data.quantityInstock", is(25)))
+        .andExpect(jsonPath("$.data.buyPrice", is(23.99)))
+        .andExpect(jsonPath("$.data.expirationDate", is("2020-01-01T00:00:00.000+0800")));
 ```
 
 > 更多关于 JsonPath 的写法请参照：[Jayway JsonPath](https://github.com/json-path/JsonPath)
+
+#### 7.断言异常
+
+> 有时候需要对可预见的异常进行断言，以期覆盖更多的场景。
+
+**代码：**
+```
+// Service
+@Transactional(readOnly = true)
+public DemoProduct findOne(Long productId) {
+    return productMapper.selectOne(
+            p -> p.where(id, isEqualTo(productId))
+    ).orElseThrow(() -> new NoSuchDataException("Cannot find product by id."));
+}
+
+// Test
+Exception exception = assertThrows(NoSuchDataException.class, () -> {
+    productService.findOne(productId);
+});
+assertEquals("Cannot find product by id.", exception.getMessage());
+```
 
 ### Service 测试
 
@@ -448,3 +514,46 @@ public class MainServiceTest extends BaseTest {
 ```
 
 > 更多请参考 [System Rules 官网](https://stefanbirkner.github.io/system-rules/index.html)
+
+-------------------------------
+
+## 建议
+
+### 测试方法命名建议
+
+> 一般建议使用 should_success/failed_do_sth_with_situation 的格式进行命名，命名中包含应当(成功/失败)去做(某件事)在(某种情况下)。
+
+**例如：**
+
+```
+should_success_find_page()
+
+should_fail_save_with_no_name()
+```
+
+### 测试建议
+
+#### 1.查询
+
+* 测试查询方法一般在测试类中先调用 Service 保存方法插入N条数据，然后根据查询条件调用 Controller 的查询接口。
+
+* 在调用查询接口结束后，需要逐一断言字段是否为插入的值。见：``ProductResourceTest.should_success_find_one()``。
+
+* 对于分页查询的测试，还要调用至少两次查询接口，断言至少两页数据。见：``ProductResourceTest.should_success_find_page()``。
+
+#### 2.保存
+
+* 测试保存方法一般在测试类中先调用 Controller 的保存接口，然后再调用 Service 的查询接口对字段逐一进行断言。见：``ProductResourceTest.should_success_save()``。
+
+#### 3.更新
+
+* 测试更新方法一般在测试类中 Service 保存方法插入N条数据，再调用 Controller 的更新接口，然后再调用 Service 的查询接口对字段逐一进行断言（包括更新及未更新的字段）。见：``ProductResourceTest.should_success_update()``。
+
+#### 4.删除
+
+* 测试更新方法一般在测试类中 Service 保存方法插入N条数据，再调用 Controller 的删除接口，然后再调用 Service 的查询接口断言数量或异常。见：``ProductResourceTest.should_success_delete()``。
+
+#### 5.分支覆盖
+
+* 代码中如有 ``if`` 或捕获异常的分支代码，务必使用预见失败的测试方法覆盖完全。见：``ProductResourceTest.should_fail_save_with_no_name()``。
+
