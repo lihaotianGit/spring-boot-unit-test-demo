@@ -5,31 +5,31 @@
 -------------------------------
 ### 目录
 
-- [基于 Spring Boot 的单元测试 Demo](#---spring-boot-------demo)
-      - [环境配置](#----)
-  * [写法](#--)
-    + [Controller Rest API 测试](#controller-rest-api---)
-      - [1.打印 Rest 请求与响应参数](#1---rest--------)
-      - [2.回滚数据库测试数据](#2---------)
-      - [3.``@RequestBody`` ``@ModelAttribute`` ``@RequestParam`` ``@PathParam`` ``@PathVariable`` 测试请求方式](#3---requestbody------modelattribute------requestparam------pathparam------pathvariable---------)
-      - [4.上传文件](#4----)
-      - [5.断言 HTTP StatusCode](#5---http-statuscode)
-      - [6.断言 Header 数据](#6---header---)
-      - [7.断言 Json 数据（JsonPath）](#7---json----jsonpath-)
-      - [7.断言异常](#7----)
-    + [Service 测试](#service---)
-      - [1.使用 ``@Before`` ``@After`` 准备和销毁数据](#1------before------after----------)
-      - [2.准备接口 Mock 数据](#2-----mock---)
-      - [3.准备接口静态方法 Mock 数据](#3---------mock---)
+- [基于 Spring Boot 的单元测试 Demo](#基于-spring-boot-的单元测试-demo)
+      - [环境配置](#环境配置)
+  * [写法](#写法)
+    + [Controller Rest API 测试](#controller-rest-api-测试)
+      - [1.打印 Rest 请求与响应参数](#1打印-rest-请求与响应参数)
+      - [2.回滚数据库测试数据](#2回滚数据库测试数据)
+      - [3.``@RequestBody`` ``@ModelAttribute`` ``@RequestParam`` ``@PathParam`` ``@PathVariable`` 测试请求方式](#3---requestbody------modelattribute------requestparam------pathparam------pathvariable-测试请求方式)
+      - [4.上传文件](#4上传文件)
+      - [5.断言 HTTP StatusCode](#5断言-http-statuscode)
+      - [6.断言 Header 数据](#6断言-header-数据)
+      - [7.断言 Json 数据（JsonPath）](#7断言-json-数据-jsonpath-)
+      - [8.断言异常](#7断言异常)
+    + [Service 测试](#service-测试)
+      - [1.使用 ``@Before`` ``@After`` 准备和销毁数据](#1使用----before------after---准备和销毁数据)
+      - [2.准备接口 Mock 数据](#2准备接口-mock-数据)
+      - [3.准备接口静态方法 Mock 数据](#3准备接口静态方法-mock-数据)
       - [4.断言控制台日志](#4-------)
-  * [建议](#--)
-    + [测试方法命名建议](#--------)
-    + [测试建议](#----)
-      - [1.查询](#1--)
-      - [2.保存](#2--)
-      - [3.更新](#3--)
-      - [4.删除](#4--)
-      - [5.分支覆盖](#5----)
+  * [建议](#建议)
+    + [测试方法命名建议](#测试方法命名建议)
+    + [测试建议](#测试建议)
+      - [1.查询](#1查询)
+      - [2.保存](#2保存)
+      - [3.更新](#3更新)
+      - [4.删除](#4删除)
+      - [5.分支覆盖](#5分支覆盖)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
@@ -353,7 +353,7 @@ this.mockMvc.perform(get("/products/" + productId)
 
 > 更多关于 JsonPath 的写法请参照：[Jayway JsonPath](https://github.com/json-path/JsonPath)
 
-#### 7.断言异常
+#### 8.断言异常
 
 > 有时候需要对可预见的异常进行断言，以期覆盖更多的场景。
 
