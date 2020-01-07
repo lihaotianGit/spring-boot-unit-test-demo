@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  mysql:
+    container_name: mysql
+    #network_mode: bridge
+    environment:
+      # MYSQL_ROOT_PASSWORD: 'sys'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'unittest'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'sys'
+      TZ: 'Asia/Shanghai'
+    image: mysql:5.7.28
+    #restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./conf/my.cnf:/etc/my.cnf
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+  redis:
+    container_name: redis
+    image: bitnami/redis:5.0
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'
+    volumes:
+      - ./data/redis:/bitnami/redis/data

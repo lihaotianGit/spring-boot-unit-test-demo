@@ -4,8 +4,8 @@ spring:
   # Datasource
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/unittest?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Hongkong&useSSL=false
-    username: root
-    password: rootroot
+    username: user
+    password: sys
     driver-class-name: com.mysql.cj.jdbc.Driver
   # Jackson
   jackson:
@@ -32,7 +32,7 @@ spring:
     # 需要 flyway 管控的 schema list,这里我们配置为flyway  缺省的话, 使用spring.datasource.url 配置的那个 schema,
     # 可以指定多个schema, 但仅会在第一个schema下建立 metadata 表, 也仅在第一个schema应用migration sql 脚本.
     # 但flyway Clean 命令会依次在这些schema下都执行一遍. 所以 确保生产 spring.flyway.clean-disabled 为 true
-    schemas: flyway
+    schemas: unittest
     # 执行迁移时是否自动调用验证   当你的 版本不符合逻辑 比如 你先执行了 DML 而没有 对应的DDL 会抛出异常
     validate-on-migrate: true
 

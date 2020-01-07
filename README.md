@@ -2,6 +2,30 @@
 
 > 本 Demo 包含了常用单元测试写法及建议
 
+-------------------------------
+
+#### 环境配置
+
+0.安装 Docker 及 docker-compose，本地安装参考 [Docker Desktop](https://www.docker.com/products/docker-desktop)。
+
+1.将 docker-env/docker-compose.yaml 文件复制到任意目录。
+
+2.在 docker-compose.yaml 文件同级创建目录 data，data 下包含 mysql 和 redis 目录，保证读写权限：
+
+```
+-- BaseEnv
+    | -- docker-compose.yaml
+    | -- data
+        | -- mysql
+        | -- redis
+```
+
+3.在 docker-compose.yaml 同级目录执行 docker-compose up。
+
+4.当然了，也可以自行搭建 MySQl 及 Redis 环境。
+
+-------------------------------
+
 ## 写法
 
 ### Controller Rest API 测试
@@ -397,7 +421,7 @@ public class MainServiceTest extends BaseTest {
 }
 ```
 
-> 更多请参考[JMockit官网](https://jmockit.github.io/)
+> 更多请参考 [JMockit官网](https://jmockit.github.io/)
 
 #### 4.断言控制台日志
 
@@ -422,3 +446,5 @@ public class MainServiceTest extends BaseTest {
     }
 }
 ```
+
+> 更多请参考 [System Rules 官网](https://stefanbirkner.github.io/system-rules/index.html)
