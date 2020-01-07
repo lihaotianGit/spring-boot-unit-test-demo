@@ -3,6 +3,37 @@
 > 本 Demo 包含了常用单元测试写法及建议
 
 -------------------------------
+### 目录
+
+- [基于 Spring Boot 的单元测试 Demo](#---spring-boot-------demo)
+      - [环境配置](#----)
+  * [写法](#--)
+    + [Controller Rest API 测试](#controller-rest-api---)
+      - [1.打印 Rest 请求与响应参数](#1---rest--------)
+      - [2.回滚数据库测试数据](#2---------)
+      - [3.``@RequestBody`` ``@ModelAttribute`` ``@RequestParam`` ``@PathParam`` ``@PathVariable`` 测试请求方式](#3---requestbody------modelattribute------requestparam------pathparam------pathvariable---------)
+      - [4.上传文件](#4----)
+      - [5.断言 HTTP StatusCode](#5---http-statuscode)
+      - [6.断言 Header 数据](#6---header---)
+      - [7.断言 Json 数据（JsonPath）](#7---json----jsonpath-)
+      - [7.断言异常](#7----)
+    + [Service 测试](#service---)
+      - [1.使用 ``@Before`` ``@After`` 准备和销毁数据](#1------before------after----------)
+      - [2.准备接口 Mock 数据](#2-----mock---)
+      - [3.准备接口静态方法 Mock 数据](#3---------mock---)
+      - [4.断言控制台日志](#4-------)
+  * [建议](#--)
+    + [测试方法命名建议](#--------)
+    + [测试建议](#----)
+      - [1.查询](#1--)
+      - [2.保存](#2--)
+      - [3.更新](#3--)
+      - [4.删除](#4--)
+      - [5.分支覆盖](#5----)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+-------------------------------
 
 #### 环境配置
 
