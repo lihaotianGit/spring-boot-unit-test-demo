@@ -50,7 +50,7 @@ public class MainServiceTest extends BaseTest {
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         redisTemplate.opsForValue().set(USER_1_KEY, readJsonFile(USER_1_FILE_PATH));
         Boolean hasKey = redisTemplate.hasKey(USER_1_KEY);
         assertNotNull(hasKey);
@@ -58,7 +58,7 @@ public class MainServiceTest extends BaseTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         redisTemplate.delete(USER_1_KEY);
         Boolean hasKey = redisTemplate.hasKey(USER_1_KEY);
         assertNotNull(hasKey);

@@ -142,7 +142,6 @@ public class ProductResourceTest extends BaseResourceTest {
                 .andExpect(jsonPath("$.data.quantityInstock", is(25)))
                 .andExpect(jsonPath("$.data.buyPrice", is(23.99)))
                 .andExpect(jsonPath("$.data.expirationDate", is("2020-01-01T00:00:00.000+0800")));
-
     }
 
     @Test
